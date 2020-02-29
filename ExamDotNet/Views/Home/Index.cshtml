@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+    <h1>Index</h1>
+
+    <form asp-controller="Home" asp-action="Result">
+        <div>
+            <label>Url</label><br />
+            <input type="url" name="url" /><br />
+        </div>
+        <div>
+            <input type="submit" value="Search" />
+        </div>
+    </form>
