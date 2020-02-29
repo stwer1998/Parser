@@ -1,16 +1,11 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using ExamDotNet.Models;
-using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ExamDotNet.Parser
 {

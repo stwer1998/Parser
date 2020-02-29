@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\stwer1998\\source\\repos\\ExamDotNet\\ExamDotNet\\ExamDotNet.csproj": {}
+    "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj": {}
   },
   "projects": {
-    "C:\\Users\\stwer1998\\source\\repos\\ExamDotNet\\ExamDotNet\\ExamDotNet.csproj": {
+    "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\stwer1998\\source\\repos\\ExamDotNet\\ExamDotNet\\ExamDotNet.csproj",
+        "projectUniqueName": "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj",
         "projectName": "ExamDotNet",
-        "projectPath": "C:\\Users\\stwer1998\\source\\repos\\ExamDotNet\\ExamDotNet\\ExamDotNet.csproj",
+        "projectPath": "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj",
         "packagesPath": "C:\\Users\\stwer1998\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\stwer1998\\source\\repos\\ExamDotNet\\ExamDotNet\\obj\\",
+        "outputPath": "d:\\C#\\Parser\\ExamDotNet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -44,10 +44,6 @@
             "AngleSharp": {
               "target": "Package",
               "version": "[0.13.0, )"
-            },
-            "HtmlAgilityPack": {
-              "target": "Package",
-              "version": "[1.11.18, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
