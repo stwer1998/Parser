@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ExamDotNet.Models;
 using ExamDotNet.DataBase;
+using ExamDotNet.Parser;
 
 namespace ExamDotNet.Controllers
 {
@@ -34,18 +35,22 @@ namespace ExamDotNet.Controllers
         [HttpPost]
         public IActionResult Scan(DtoLink dtoLink)
         {
-            if (ModelState.IsValid) 
-            {
-                var r = db.Get(dtoLink.Link.OriginalString);
-                if (r.Length == 0 || r == null)
-                {
-                    var parser = new ExamDotNet.Parser.Parser();
-                    var result = parser.Parse(dtoLink);
-                    db.Add(result);
-                }
-                return RedirectToAction("Result", new { url = dtoLink.Link });
-            }
-            else return View(dtoLink);
+
+            var parser = new ParalelParser(dtoLink);
+            parser.Parse();
+            //if (ModelState.IsValid) 
+            //{
+            //    var r = db.Get(dtoLink.Link.Origin);
+            //    if (r.Length == 0 || r == null)
+            //    {
+            //        var parser = new ExamDotNet.Parser.Parser();
+            //        var result = parser.Parse(dtoLink);
+            //        db.Add(result);
+            //    }
+            //    return RedirectToAction("Result", new { url = dtoLink.Link });
+            //}
+            //else return View(dtoLink);
+            return View();
         }
 
 

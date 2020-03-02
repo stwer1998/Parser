@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj": {}
+    "D:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj": {}
   },
   "projects": {
-    "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj": {
+    "D:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj",
+        "projectUniqueName": "D:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj",
         "projectName": "ExamDotNet",
-        "projectPath": "d:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj",
+        "projectPath": "D:\\C#\\Parser\\ExamDotNet\\ExamDotNet.csproj",
         "packagesPath": "C:\\Users\\stwer1998\\.nuget\\packages\\",
-        "outputPath": "d:\\C#\\Parser\\ExamDotNet\\obj\\",
+        "outputPath": "D:\\C#\\Parser\\ExamDotNet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

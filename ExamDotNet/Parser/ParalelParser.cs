@@ -1,26 +1,41 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using AngleSharp.Html.Parser;
 using ExamDotNet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ExamDotNet.Parser
 {
     public class ParalelParser
     {
-        public static void Parse(DtoLink model) 
+        
+        private List<Uri> allLinks;
+        private DtoLink model;
+        private List<LinkModel> result;
+        //private object procCount;
+        public ParalelParser(DtoLink model)
         {
+            this.model = model;            
+            allLinks = new List<Uri>();
+        }
+        public LinkModel[] Parse()
+        {
+            result = new List<LinkModel>();
+            //procCount = 0;
+            GetAllUrls();
+            IndexPagesAsync();
+            return null;
 
         }
 
-        private static Task<IDocument> GetPage(Url url) 
+        private IDocument GetPage(Uri url)
         {
             var config = Configuration.Default.WithDefaultLoader();
-            var document = BrowsingContext.New(config).OpenAsync(url).Result;
+            var document = BrowsingContext.New(config).OpenAsync(url.ToString()).Result;
             try
             {
                 if (document.StatusCode != HttpStatusCode.OK)
@@ -32,36 +47,81 @@ namespace ExamDotNet.Parser
                 return null;
             }
         }
-    
 
-        public static List<Uri> GetUrlsFromPage(Uri uri, int numpage) 
+        private void GetAllUrls()
         {
-            var result = new List<Uri>();
-            var parser = new HtmlParser();
-            Url u = new Url(uri.OriginalString);
-            var document = new Task<IDocument>(GetPage(u)).Result;
-
-            var links = document.QuerySelectorAll("a");
-            foreach (var link in links)
+            var pagelinks = new Dictionary<int, List<Uri>>();
+            pagelinks.Add(0,GetUrlsFromPage(model.Link, model.Limit));
+            for (int i = 1; i <= model.Depth; i++)
             {
-                try
+                foreach (var uri in pagelinks[i-1])
                 {
-                    result.Add(new Uri(link.GetAttribute("href")));
+                    var links = GetUrlsFromPage(uri,model.Limit);
+                    if (links != null&&links.Count>0) 
+                    {
+                        if (pagelinks.ContainsKey(i))
+                        {
+                            pagelinks[i].AddRange(links);
+                        }
+                        else 
+                        {
+                            pagelinks.Add(i, links);
+                        }
+                    }
                 }
-                catch
-                {
-                }
-
             }
-            //var some = result.Where(x=>x.Host==uri.Host).ToList();
-            return result.Where(x => x.Host == uri.Host).Take(numpage).ToList();
+            allLinks = pagelinks.SelectMany(x => x.Value).ToList();
+            
         }
 
-        public static void GetTextFromPage() { }
+        private List<Uri> GetUrlsFromPage(Uri uri, int numpage)
+        {
+            if (!allLinks.Contains(uri))
+            {
+                allLinks.Add(uri);
+                var page = GetPage(uri);
+                if (page != null)
+                {
+                    return page
+                         .QuerySelectorAll("a")
+                         .Select(x => x.GetAttribute("href"))
+                         .Where(x => x.StartsWith(model.Link.ToString()))
+                         .Select(x => new Uri(x))
+                         .Take(numpage)
+                         .ToList();
+                }
+            }
+            return null;
+        }
 
-        public static void AddLinkToListLink() { }
+        private async Task IndexPagesAsync() 
+        {
 
-        public static void AddTextToListREsult() { }
+            var result = from link in allLinks.AsParallel()
+                         select link;
+            result.ForAll((x) => Index(x));
 
+        }
+
+        private void Index(object uri) 
+        {
+            var link = (Uri)uri;
+            var page = GetPage(link);
+            if (page != null) 
+            {
+                result.Add(new LinkModel
+                {
+                    //IdGuid = Guid.NewGuid(),
+                    IndexedUrl = link.ToString(),
+                    Url = model.Link.ToString(),
+                    Text = page.Body.TextContent
+                });
+            }
+            //lock (procCount) 
+            //{
+            //    var s = (int)procCount;
+            //    procCount = s--;
+            //}
+        }
     }
 }
